@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-container>
-      <el-header style="height: 60px;">Header</el-header>
+      <el-header style="height: 70px; padding: 0">
+      </el-header>
       <el-container>
         <el-aside width="200px">
           <div>
@@ -32,7 +33,9 @@
         <el-main style="padding: 0px;">
           <div>
             <el-tabs type="border-card" :addable="true" :closable="true" v-model="selected">
-              <el-tab-pane v-for="tab in tabs" :label="tab.label" :key="tab.label" :name="tab.label" v-html="tab.contents"></el-tab-pane>
+              <el-tab-pane v-for="tab in tabs" :label="tab.label" :key="tab.label" :name="tab.label">
+                <component :is="tab.contents"></component>
+              </el-tab-pane>
             </el-tabs>
           </div>
         </el-main>
@@ -49,6 +52,7 @@
 
 <script>
     import West from './West'
+
     export default {
         name: "",
         components: {
@@ -57,9 +61,9 @@
         data() {
             return {
                 tabs: [
-                    {label: '用户管理', contents: '用户管理'},
-                    {label: '配置管理', contents: '配置管理'},
-                    {label: '角色管理', contents: '角色管理'},
+                    {label: '用户管理', contents: West},
+                    {label: '配置管理', contents: West},
+                    {label: '角色管理', contents: West},
                 ],
                 selected: '用户管理',
                 dialogVisible: false
@@ -72,8 +76,8 @@
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
             },
-            addTab() {
-                debugger;
+            addTab(comp) {
+                console.log(comp)
                 if (this.tabs.length >= 10) {
                     this.dialogVisible = true;
                     return;
